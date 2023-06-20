@@ -1,40 +1,53 @@
 const {
     Telegraf
 } = require('telegraf');
-const fs = require('fs');
+const mongoose = require("mongoose");
+const User = require("./models/users.js");
+const AdminUser = require("./models/adminUsers.js");
 
 require('dotenv').config();
 
-const data = fs.readFileSync('data.json');
-const users = JSON.parse(data).users;
+try {
+    mongoose.set("strictQuery", true);
+    mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+} catch (e) {
+    console.log("-- Server Error. \n" + e.message);
+    process.exit(1);
+}
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.start((ctx) => {
+bot.start(async (ctx) => {
     const userId = ctx.from.id;
 
     ctx.reply('Привет! С помощью нашего бота ты сможешь узнать обо всех днях отрытых дверей в учебных заведениях твоего города!');
 
-    if (users.includes(userId)) {
-        return;
-    }
+    const candidate = await User.findOne({
+        "userId": userId
+    }).exec();
+    console.log(candidate)
+    if (candidate) return;
 
-    users.push(userId);
-
-    const newData = JSON.parse(data);
-    newData.users = users;
-    newData.usersCount = users.length;
-    console.log(newData);
-
-    fs.writeFile('data.json', JSON.stringify(newData), err => {
-        // error checking
-        if (err) throw err;
-
-        console.log("New user added");
+    const user = new User({
+        userId
     });
+    await user.save();
 });
 
-bot.on('message', (ctx) => {
+bot.on('message', async (ctx) => {
+    const userId = ctx.from.id;
+    const candidate = await AdminUser.find({
+        userId
+    }).exec();
+
+    if (ctx.message.text == "info" && candidate.length) {
+        const usersCount = await User.count().exec();
+        return ctx.reply(`Количество пользователей: ${usersCount}`);
+    }
+
     ctx.reply('К сожалению, бот находится в разработке!');
 });
 
