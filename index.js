@@ -23,7 +23,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start(async (ctx) => {
     const userId = ctx.from.id;
 
-    ctx.reply('Привет! С помощью нашего бота ты сможешь узнать обо всех днях отрытых дверей в учебных заведениях твоего города!');
+    ctx.reply('Спасибо, что заинтересовались нашим помощником в выборе колледжа. Пока что мы собираем базу ДОДов, поэтому будем рады твоему возврату сюда чуть позднее!');
 
     const candidate = await User.findOne({
         "userId": userId
