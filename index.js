@@ -5,7 +5,11 @@ const mongoose = require("mongoose");
 const User = require("./models/users.js");
 const AdminUser = require("./models/adminUsers.js");
 
-require('dotenv').config();
+require("dotenv").config();
+require("http").createServer((_, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("OK");
+}).listen(10000);
 
 try {
     mongoose.set("strictQuery", true);
