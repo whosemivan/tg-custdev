@@ -30,9 +30,8 @@ bot.start(async (ctx) => {
     ctx.reply('Спасибо, что заинтересовались нашим помощником в выборе колледжа. Пока что мы собираем базу ДОДов, поэтому будем рады твоему возврату сюда чуть позднее!');
 
     const candidate = await User.findOne({
-        "userId": userId
+        userId
     }).exec();
-    console.log(candidate)
     if (candidate) return;
 
     const user = new User({
@@ -49,7 +48,9 @@ bot.on('message', async (ctx) => {
 
     if (ctx.message.text == "info" && candidate.length) {
         const usersCount = await User.count().exec();
+        const allUsersCount = await mongoose.collection.find().count();
         return ctx.reply(`Количество пользователей: ${usersCount}`);
+        return ctx.reply(`Количество всех пользователей: ${allUsersCount}`);
     }
 
     ctx.reply('К сожалению, бот находится в разработке!');
