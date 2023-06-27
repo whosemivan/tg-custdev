@@ -6,6 +6,6 @@ const schema = new Schema({
         require: true
     }
 }, { versionKey: false })
-const User = model("CustdevUser", schema);
+const User = model("User", schema);
 
 module.exports = User; 
