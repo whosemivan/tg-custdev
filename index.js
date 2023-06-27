@@ -48,9 +48,7 @@ bot.on('message', async (ctx) => {
 
     if (ctx.message.text == "info" && candidate.length) {
         const usersCount = await User.count().exec();
-        const allUsersCount = await mongoose.collection.find().count();
         return ctx.reply(`Количество пользователей: ${usersCount}`);
-        return ctx.reply(`Количество всех пользователей: ${allUsersCount}`);
     }
 
     ctx.reply('К сожалению, бот находится в разработке!');
