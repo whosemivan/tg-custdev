@@ -16,8 +16,25 @@ try {
     process.exit(1);
 }
 
-const dodStormBot = require("./bots/dodStormBot.js");
+const Bot = new (require("./bot/bot.js"))();
+const schema = require("./scheme/userSchema.js");
+
+
+// Боты:
+
+const dodStormBotUsers = mongoose.model("dodStormBotUsers", schema);
+const dodStormBot = Bot.create({
+    botToken: process.env.BOT_dodStormBot_TOKEN,
+    Users: dodStormBotUsers,
+    // startText - текст, который будет отправляться при нажатии на кнопку start.
+    // msgText - текст, который будет отправляться при отправке сообщения.
+    // По умолчанию они заданы как у первого бота.
+});
 dodStormBot.launch();
 
-const dodmedbot = require("./bots/dodmedbot.js");
+const dodmedbotUsers = mongoose.model("dodmedbotUsers", schema);
+const dodmedbot = Bot.create({
+    botToken: process.env.BOT_dodmedbot_TOKEN,
+    Users: dodmedbotUsers
+});
 dodmedbot.launch();
