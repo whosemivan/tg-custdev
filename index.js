@@ -110,3 +110,19 @@ const scorepedbot = Bot.create({
     startText: 'Спасибо, что заинтересовались нашим помощником в выборе колледжа и подходящей программы обучения. Пока что мы собираем базу направлений и баллов, поэтому будем рады твоему возврату сюда чуть позднее.'
 });
 scorepedbot.launch();
+
+const eventsBotUsers = mongoose.model("eventsBotUsers", schema);
+const eventsbot = Bot.create({
+    botToken: process.env.BOT_events_TOKEN,
+    Users: eventsBotUsers,
+    startText: 'Спасибо, что заинтересовался(ась) нашим помощником в выборе подходящей именно тебе активности. Пока что мы собираем базу мероприятий и выбираем удобный формат для реализации бота, поэтому извини за то, что здесь еще пусто ('
+});
+eventsbot.launch();
+
+const afishaEventsBotUsers = mongoose.model("eventsBotUsers", schema);
+const afishaEventsBot = Bot.create({
+    botToken: process.env.BOT_afisha_events_TOKEN,
+    Users: afishaEventsBotUsers,
+    startText: 'Спасибо, что заинтересовался(ась) нашим помощником в выборе подходящей именно тебе активности. Пока что мы собираем базу мероприятий и выбираем удобный формат для реализации бота, поэтому извини за то, что здесь еще пусто ('
+});
+afishaEventsBot.launch();
