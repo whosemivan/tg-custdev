@@ -119,10 +119,18 @@ const eventsbot = Bot.create({
 });
 eventsbot.launch();
 
-const afishaEventsBotUsers = mongoose.model("eventsBotUsers", schema);
+const afishaEventsBotUsers = mongoose.model("afishaEventsBotUsers", schema);
 const afishaEventsBot = Bot.create({
     botToken: process.env.BOT_afisha_events_TOKEN,
     Users: afishaEventsBotUsers,
     startText: 'Спасибо, что заинтересовался(ась) нашим помощником в выборе подходящей именно тебе активности. Пока что мы собираем базу мероприятий и выбираем удобный формат для реализации бота, поэтому извини за то, что здесь еще пусто ('
 });
 afishaEventsBot.launch();
+
+const themeEventsBotUsers = mongoose.model("themeEventsBotUsers", schema);
+const themeEventsBot = Bot.create({
+    botToken: process.env.BOT_theme_events_TOKEN,
+    Users: themeEventsBotUsers,
+    startText: 'Спасибо, что заинтересовался(ась) нашим помощником в выборе подходящей именно тебе активности. Пока что мы собираем базу мероприятий и выбираем удобный формат для реализации бота, поэтому извини за то, что здесь еще пусто ('
+});
+themeEventsBot.launch();
